@@ -1,0 +1,34 @@
+#define SIGNAL_FROM_ESP 2
+#define RELAY_PIN 8        
+#define BUZZER_PIN 7
+
+void setup() {
+  pinMode(SIGNAL_FROM_ESP, INPUT);
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+
+}
+
+void loop() {
+  int signal = digitalRead(SIGNAL_FROM_ESP);
+  
+  if (signal == HIGH) {
+     deactivateBuzzer();
+    digitalWrite(RELAY_PIN, HIGH); // Turn fan ON
+    Serial.println("ESP32 says: FAN ON");
+  } else {
+    activateBuzzer();
+    digitalWrite(RELAY_PIN, LOW);  // Turn fan OFF
+    Serial.println("ESP32 says: FAN OFF");
+  }
+
+  delay(500); // Small delay to debounce
+}
+
+void activateBuzzer() {
+  digitalWrite(BUZZER_PIN, HIGH);
+}
+
+void deactivateBuzzer() {
+  digitalWrite(BUZZER_PIN, LOW);
+}
